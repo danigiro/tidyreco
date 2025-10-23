@@ -1,0 +1,19 @@
+Type: Package
+Package: tidyreco
+Title: Tidy Forecast Reconciliation
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Daniele",
+             family = "Girolimetto",
+             role = c("aut", "cre"),
+             email = "daniele.girolimetto@unipd.it",
+             comment = c(ORCID = "0000-0001-9387-1232")))
+Description: Optimal combination and heuristic point and probabilistic 
+    forecast reconciliation procedures for fable and fabletools.
+License: GPL-3
+Depends: R (>= 3.4), FoReco, fabletools
+Imports: rlang
+Encoding: UTF-8
+NeedsCompilation: no
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
