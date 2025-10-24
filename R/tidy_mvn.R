@@ -28,17 +28,16 @@ forecast.lst_csmvn_mdl <- function(
   point_forecast = list(.mean = mean),
   ...
 ) {
-  FoReco_input <- rlang::`%@%`(object, "FoReco")
+  FoReco_input <- object %@% "FoReco"
 
   if (is.null(FoReco_input$comb)) {
     FoReco_input$comb <- "shr"
   }
-  # %@% rlang
 
   # Get forecasts
   fc <- NextMethod()
 
-  if (length(unique(map(fc, tsibble::interval))) > 1) {
+  if (length(unique(map(fc, interval))) > 1) {
     abort(
       "Reconciliation of temporal hierarchies is available with tidy_terec."
     )
@@ -51,16 +50,16 @@ forecast.lst_csmvn_mdl <- function(
       -1
     ]))
   } else {
-    res <- matrix(rlang::exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
+    res <- matrix(exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
   }
 
   agg_data <- fabletools:::build_key_data_smat(key_data)
   row_btm <- agg_data$leaf
   row_agg <- seq_len(nrow(key_data))[-row_btm]
   agg_data_A <- agg_data$agg[-row_btm]
-  agg_mat <- Matrix::sparseMatrix(
+  agg_mat <- sparseMatrix(
     i = rep(seq_along(agg_data_A), lengths(agg_data_A)),
-    j = vctrs::vec_c(!!!agg_data_A),
+    j = vec_c(!!!agg_data_A),
     x = rep(1, sum(lengths(agg_data_A)))
   )
 
@@ -71,12 +70,11 @@ forecast.lst_csmvn_mdl <- function(
     all(dist_types(x) == "dist_normal")
   }))
 
-  fc_mean <- as.matrix(rlang::exec("cbind", !!!map(fc_dist, mean)))
-  # fc_var <- transpose_dbl(map(fc_dist, distributional::variance))
+  fc_mean <- as.matrix(exec("cbind", !!!map(fc_dist, mean)))
 
   tmp <- suppressWarnings(
     do.call(
-      FoReco::csmvn,
+      csmvn,
       c(
         list(
           base = fc_mean[, c(row_agg, row_btm), drop = FALSE],
@@ -92,13 +90,13 @@ forecast.lst_csmvn_mdl <- function(
     t(fc_mean[, order(c(row_agg, row_btm))]),
     1:ncol(fc_mean)
   )
-  fc_sd <- rbind(sqrt(distributional::variance(tmp)))
+  fc_sd <- rbind(sqrt(variance(tmp)))
   fc_sd <- fc_sd[, order(c(row_agg, row_btm)), drop = FALSE]
   fc_sd <- split(t(fc_sd), 1:ncol(fc_sd))
   fc_dist <- map2(
     fc_mean,
     fc_sd,
-    distributional::dist_normal
+    dist_normal
   )
 
   # Update fables

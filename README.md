@@ -16,20 +16,59 @@ The goal of tidyreco is to …
 
 ## Installation
 
-You can install the development version of tidyreco like so:
+You can install the **stable** version on [R
+CRAN](https://cran.r-project.org/package=tidyreco) with:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+install.packages("tidyreco")
+```
+
+You can also install the **development** version from
+[Github](https://github.com/danigiro/tidyreco)
+
+``` r
+# install.packages("devtools")
+devtools::install_github("danigiro/tidyreco")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
 ``` r
-#library(tidyreco)
-## basic example code
+library(fable)
+library(tidyreco)
+library(ggplot2)
+
+data <- tsibble::tourism |>
+  aggregate_key(Purpose, Trips = sum(Trips)) |>
+  model(ets = ETS(Trips)) |>
+  reconcile(
+    csrec = tidy_csrec(ets, comb = "wls"),
+    csmvn = tidy_csmvn(ets, comb = "wls"),
+    cssmp100 = tidy_cssmp(ets, comb = "wls", times = 100),
+    cssmp1000 = tidy_cssmp(ets, comb = "wls", times = 1000),
+    fbl = min_trace(ets)
+  ) |>
+  forecast()
+
+data |>
+  dplyr::mutate(
+    .model = dplyr::recode(
+      .model,
+      ets = "Base forecast",
+      csrec = "Point recon.",
+      csmvn = "Gaussian recon.",
+      cssmp100 = "Recon. with 100 samples",
+      cssmp1000 = "Recon. with 1000 samples",
+      fbl = "Original fable implem."
+    )
+  ) |>
+  autoplot() +
+  facet_grid(Purpose ~ .model, scales = "free") +
+  labs(title = "Tourism forecasts with different reconciliation methods") +
+  theme(legend.position = "bottom", 
+        legend.title = element_blank(), 
+        legend.box="vertical",
+        legend.margin = margin())
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+<img src="man/figures/README-example-1.png" width="200%" />

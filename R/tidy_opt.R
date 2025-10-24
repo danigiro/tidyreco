@@ -28,7 +28,7 @@ forecast.lst_csrec_mdl <- function(
   point_forecast = list(.mean = mean),
   ...
 ) {
-  FoReco_input <- rlang::`%@%`(object, "FoReco")
+  FoReco_input <- object %@% "FoReco"
 
   if (is.null(FoReco_input$comb)) {
     FoReco_input$comb <- "shr"
@@ -37,7 +37,7 @@ forecast.lst_csrec_mdl <- function(
   # Get forecasts
   fc <- NextMethod()
 
-  if (length(unique(map(fc, tsibble::interval))) > 1) {
+  if (length(unique(map(fc, interval))) > 1) {
     abort(
       "Reconciliation of temporal hierarchies is available with tidy_terec."
     )
@@ -50,16 +50,16 @@ forecast.lst_csrec_mdl <- function(
       -1
     ]))
   } else {
-    res <- matrix(rlang::exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
+    res <- matrix(exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
   }
 
   agg_data <- fabletools:::build_key_data_smat(key_data)
   row_btm <- agg_data$leaf
   row_agg <- seq_len(nrow(key_data))[-row_btm]
   agg_data_A <- agg_data$agg[-row_btm]
-  agg_mat <- Matrix::sparseMatrix(
+  agg_mat <- sparseMatrix(
     i = rep(seq_along(agg_data_A), lengths(agg_data_A)),
-    j = vctrs::vec_c(!!!agg_data_A),
+    j = vec_c(!!!agg_data_A),
     x = rep(1, sum(lengths(agg_data_A)))
   )
 
@@ -70,11 +70,11 @@ forecast.lst_csrec_mdl <- function(
     all(dist_types(x) == "dist_normal")
   }))
 
-  fc_mean <- as.matrix(rlang::exec("cbind", !!!map(fc_dist, mean)))
+  fc_mean <- as.matrix(exec("cbind", !!!map(fc_dist, mean)))
 
   fc_mean <- suppressWarnings(
     do.call(
-      FoReco::csrec,
+      csrec,
       c(
         list(
           base = fc_mean[, c(row_agg, row_btm), drop = FALSE],
@@ -87,7 +87,7 @@ forecast.lst_csrec_mdl <- function(
   )
   fc_mean <- fc_mean[, order(c(row_agg, row_btm)), drop = FALSE]
   fc_mean <- split(t(fc_mean), 1:ncol(fc_mean))
-  fc_dist <- map(fc_mean, distributional::dist_degenerate)
+  fc_dist <- map(fc_mean, dist_degenerate)
 
   # Update fables
   map2(fc, fc_dist, function(fc, dist) {

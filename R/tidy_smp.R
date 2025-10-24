@@ -44,23 +44,23 @@ forecast.lst_cssmp_mdl <- function(
   point_forecast = list(.mean = mean),
   ...
 ) {
-  FoReco_input <- rlang::`%@%`(object, "FoReco")
+  FoReco_input <- object %@% "FoReco"
 
   dots_list <- list(...)
   if (is.null(dots_list$simulate)) {
-    simulate <- rlang::`%@%`(object, "simulate")
+    simulate <- object %@% "simulate"
   } else {
     simulate <- dots_list$simulate
   }
 
   if (is.null(dots_list$bootstrap)) {
-    bootstrap <- rlang::`%@%`(object, "bootstrap")
+    bootstrap <- object %@% "bootstrap"
   } else {
     bootstrap <- dots_list$bootstrap
   }
 
   if (is.null(dots_list$times)) {
-    times <- rlang::`%@%`(object, "times")
+    times <- object %@% "times"
   } else {
     times <- dots_list$times
   }
@@ -72,7 +72,7 @@ forecast.lst_cssmp_mdl <- function(
   # Get forecasts
   fc <- NextMethod(simulate = simulate, times = times, bootstrap = bootstrap)
 
-  if (length(unique(map(fc, tsibble::interval))) > 1) {
+  if (length(unique(map(fc, interval))) > 1) {
     abort(
       "Reconciliation of temporal hierarchies is available with tidy_terec."
     )
@@ -85,16 +85,16 @@ forecast.lst_cssmp_mdl <- function(
       -1
     ]))
   } else {
-    res <- matrix(rlang::exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
+    res <- matrix(exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
   }
 
   agg_data <- fabletools:::build_key_data_smat(key_data)
   row_btm <- agg_data$leaf
   row_agg <- seq_len(nrow(key_data))[-row_btm]
   agg_data_A <- agg_data$agg[-row_btm]
-  agg_mat <- Matrix::sparseMatrix(
+  agg_mat <- sparseMatrix(
     i = rep(seq_along(agg_data_A), lengths(agg_data_A)),
-    j = vctrs::vec_c(!!!agg_data_A),
+    j = vec_c(!!!agg_data_A),
     x = rep(1, sum(lengths(agg_data_A)))
   )
 
@@ -106,7 +106,7 @@ forecast.lst_cssmp_mdl <- function(
   }))
 
   sample_size <- unique(unlist(lapply(fc_dist, function(x) {
-    unique(lengths(distributional::parameters(x)$x))
+    unique(lengths(parameters(x)$x))
   })))
   if (length(sample_size) != 1L) {
     stop("Cannot reconcile sample paths with different replication sizes.")
@@ -118,7 +118,7 @@ forecast.lst_cssmp_mdl <- function(
     )
   }
   # Extract sample paths
-  samples <- lapply(fc_dist, function(x) distributional::parameters(x)$x)
+  samples <- lapply(fc_dist, function(x) parameters(x)$x)
   samples <- aperm(
     array(
       unlist(samples, use.names = FALSE),
@@ -130,7 +130,7 @@ forecast.lst_cssmp_mdl <- function(
 
   tmp <- suppressWarnings(
     do.call(
-      FoReco::cssmp,
+      cssmp,
       c(
         list(
           sample = samples,
@@ -142,13 +142,13 @@ forecast.lst_cssmp_mdl <- function(
     )
   )
   names(tmp) <- NULL
-  samples <- simplify2array(lapply(vctrs::vec_data(tmp), function(x) x$x))
+  samples <- simplify2array(lapply(vec_data(tmp), function(x) x$x))
   samples <- samples[, order(c(row_agg, row_btm)), , drop = FALSE]
   fc_dist <- apply(
     samples,
     2L,
     simplify = FALSE,
-    function(x) unname(distributional::dist_sample(split(t(x), 1:ncol(x))))
+    function(x) unname(dist_sample(split(t(x), 1:ncol(x))))
   )
 
   # Update fables

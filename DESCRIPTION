@@ -11,8 +11,20 @@ Authors@R:
 Description: Optimal combination and heuristic point and probabilistic 
     forecast reconciliation procedures for fable and fabletools.
 License: GPL-3
-Depends: R (>= 3.4), FoReco, fabletools
-Imports: rlang
+Depends: R (>= 3.4)
+Imports: 
+    FoReco, 
+    fabletools, 
+    rlang (>= 0.4.5), 
+    vctrs (>= 0.2.2), 
+    stats, 
+    distributional (>= 0.3.0.9000),
+    dplyr (>= 1.0.0),
+    Matrix,
+    tsibble
+Suggests:
+    fable (>= 0.2.0),
+    ggplot2
 Encoding: UTF-8
 NeedsCompilation: no
 Roxygen: list(markdown = TRUE)
