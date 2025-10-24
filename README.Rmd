@@ -13,10 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# tidyreco
+# tidyreco <img src="man/figures/logo.svg" alt="logo" align="right" width="150" style="border: none; float: right;"/>
 
-<!-- badges: start -->
-<!-- badges: end -->
+<!--[![R-CMD-check](https://github.com/danigiro/tidyreco/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/danigiro/tidyreco/actions/workflows/R-CMD-check.yaml) -->
+[![CRAN status](https://www.r-pkg.org/badges/version/tidyreco)](https://CRAN.R-project.org/package=tidyreco) 
+`r sprintf("[![devel version](https://img.shields.io/badge/devel version-%s-blue.svg)](https://github.com/danigiro/tidyreco)", gsub("Version: (.*)", "\\1",  (desc <- readLines("DESCRIPTION"))[grepl("Version", desc, fixed = TRUE)]))` 
+[![License: GPL-3](https://img.shields.io/badge/license-GPL--3-forestgreen.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 
 The goal of tidyreco is to ...
 
