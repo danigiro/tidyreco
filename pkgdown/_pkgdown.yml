@@ -1,0 +1,36 @@
+url: https://danigiro.github.io/tidyreco
+
+development:
+  mode: release
+  version_label: default
+  version_tooltip: "Version"
+
+template:
+  bootstrap: 5
+  math-rendering: mathjax
+
+navbar:
+  structure:
+    left: [home, reference, news]
+    right:  [github, rpro]
+  components:
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/danigiro/tidyreco
+      aria-label: View on GitHub
+    reference:
+      text: "Reference"
+      icon: fa-book
+      href: reference/index.html
+    news:
+      text: "News"
+      icon: far fa-newspaper
+      href: news/index.html
+    home:
+      text: "Home"
+      icon: fa-home
+      href: index.html
+    rpro:
+      icon: fab fa-r-project fa-lg
+      href: https://CRAN.R-project.org/package=tidyreco
+      aria-label: View on CRAN

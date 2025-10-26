@@ -71,4 +71,4 @@ data |>
         legend.margin = margin())
 ```
 
-<img src="man/figures/README-example-1.png" width="200%" />
+<img src="man/figures/README-example-1.png" alt="Tourism forecasts with different reconciliation methods" width="200%" />

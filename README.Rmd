@@ -39,7 +39,7 @@ devtools::install_github("danigiro/tidyreco")
 
 ## Example
 
-```{r example, fig.width=11.5, fig.height=6, message=FALSE, warning=FALSE}
+```{r example, fig.width=11.5, fig.height=6, message=FALSE, warning=FALSE, fig.alt="Tourism forecasts with different reconciliation methods"}
 library(fable)
 library(tidyreco)
 library(ggplot2)
