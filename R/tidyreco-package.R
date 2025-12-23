@@ -1,4 +1,5 @@
-#' @keywords internal
+#' @docType package
+#' @keywords package
 "_PACKAGE"
 
 #' @import FoReco
@@ -9,5 +10,5 @@
 #' @importFrom tsibble interval index_var
 #' @importFrom Matrix sparseMatrix
 #' @importFrom dplyr full_join
-#' @importFrom stats residuals 
+#' @importFrom stats residuals
 NULL

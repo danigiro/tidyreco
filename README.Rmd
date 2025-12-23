@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 `r sprintf("[![devel version](https://img.shields.io/badge/devel version-%s-blue.svg)](https://github.com/danigiro/tidyreco)", gsub("Version: (.*)", "\\1",  (desc <- readLines("DESCRIPTION"))[grepl("Version", desc, fixed = TRUE)]))` 
 [![License: GPL-3](https://img.shields.io/badge/license-GPL--3-forestgreen.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 
-The goal of tidyreco is to ...
+The R package **tidyreco** provides tools for forecast reconciliation of hierarchical and grouped time series. It integrates the reconciliation methods available in the [FoReco](https://danigiro.github.io/FoReco) package into the [fable](https://fable.tidyverts.org/) and [fabletools](https://fabletools.tidyverts.org/) framework.
 
 ## Installation
 

@@ -12,7 +12,11 @@ version](https://img.shields.io/badge/devel%20version-0.0.0.9000-blue.svg)](http
 [![License:
 GPL-3](https://img.shields.io/badge/license-GPL--3-forestgreen.svg)](https://cran.r-project.org/web/licenses/GPL-3)
 
-The goal of tidyreco is to …
+The R package **tidyreco** provides tools for forecast reconciliation of
+hierarchical and grouped time series. It integrates the reconciliation
+methods available in the [FoReco](https://danigiro.github.io/FoReco)
+package into the [fable](https://fable.tidyverts.org/) and
+[fabletools](https://fabletools.tidyverts.org/) framework.
 
 ## Installation
 

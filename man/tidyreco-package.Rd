@@ -8,8 +8,17 @@
 \description{
 Optimal combination and heuristic point and probabilistic forecast reconciliation procedures for fable and fabletools.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/danigiro/tidyreco}
+  \item \url{https://danigiro.github.io/tidyreco/}
+  \item Report bugs at \url{https://github.com/danigiro/tidyreco/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Daniele Girolimetto \email{daniele.girolimetto@unipd.it} (\href{https://orcid.org/0000-0001-9387-1232}{ORCID})
 
 }
-\keyword{internal}
+\keyword{package}

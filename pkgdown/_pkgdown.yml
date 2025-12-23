@@ -34,3 +34,13 @@ navbar:
       icon: fab fa-r-project fa-lg
       href: https://CRAN.R-project.org/package=tidyreco
       aria-label: View on CRAN
+
+reference:
+- title: Overview
+  contents:
+    - tidyreco-package
+- title: Cross-secional forecast reconciliation
+  contents:
+    - tidy_csmvn
+    - tidy_csrec
+    - tidy_cssmp
