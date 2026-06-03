@@ -43,6 +43,7 @@ devtools::install_github("danigiro/tidyreco")
 library(fable)
 library(tidyreco)
 library(ggplot2)
+library(ggtime)
 
 data <- tsibble::tourism |>
   aggregate_key(Purpose, Trips = sum(Trips)) |>

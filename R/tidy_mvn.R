@@ -53,15 +53,9 @@ forecast.lst_csmvn_mdl <- function(
     res <- matrix(exec("c", !!!map(res, `[[`, 2)), ncol = length(object))
   }
 
-  agg_data <- fabletools:::build_key_data_smat(key_data)
-  row_btm <- agg_data$leaf
+  agg_mat <- coherent_smat(key_data, sparse = TRUE, with_bottom = FALSE)
+  row_btm <- attr(agg_mat, "bottom")
   row_agg <- seq_len(nrow(key_data))[-row_btm]
-  agg_data_A <- agg_data$agg[-row_btm]
-  agg_mat <- sparseMatrix(
-    i = rep(seq_along(agg_data_A), lengths(agg_data_A)),
-    j = vec_c(!!!agg_data_A),
-    x = rep(1, sum(lengths(agg_data_A)))
-  )
 
   fc_dist <- map(fc, function(x) x[[distribution_var(x)]])
   dist_type <- lapply(fc_dist, function(x) unique(dist_types(x)))
